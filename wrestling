@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Promoters Forge Absolute Wrestling Simulator | Official Site</title>
+  <meta name="description" content="Official website for Promoters Forge Absolute Wrestling Simulator, an in-development professional wrestling management simulation built in Godot 4.6." />
+  <style>
+    :root {
+      --bg: #0a0c10;
+      --bg2: #131720;
+      --panel: rgba(20, 24, 34, 0.88);
+      --panel2: rgba(12, 15, 22, 0.92);
+      --text: #f3f5f8;
+      --muted: #b0b8c4;
+      --accent: #c8a96a;
+      --accent2: #8a0f16;
+      --line: rgba(255,255,255,0.08);
+      --shadow: 0 24px 70px rgba(0,0,0,0.42);
+      --max: 1180px;
+    }
+
+```
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  color: var(--text);
+  line-height: 1.65;
+  background:
+    radial-gradient(circle at top, rgba(200,169,106,0.11), transparent 28%),
+    radial-gradient(circle at 85% 10%, rgba(138,15,22,0.18), transparent 26%),
+    linear-gradient(180deg, #141922 0%, #0a0c10 55%, #07080b 100%);
+}
+
+a { color: inherit; text-decoration: none; }
+.container { width: min(100% - 2rem, var(--max)); margin: 0 auto; }
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,12,16,0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.brand {
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.nav-links a:hover { color: var(--text); }
+
+.hero {
+  padding: 5.5rem 0 4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.03);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  margin-bottom: 1rem;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.7rem, 6vw, 5.2rem);
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 1.08rem;
+  max-width: 62ch;
+  margin: 0 0 1rem;
+}
+
+.cta-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.9rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-weight: 800;
+  transition: transform 0.18s ease;
+}
+
+.button:hover { transform: translateY(-1px); }
+
+.button.primary {
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  border: none;
+  color: white;
+  box-shadow: var(--shadow);
+}
+
+.button.secondary { background: rgba(255,255,255,0.04); }
+
+.meta-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.pill {
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+
+.hero-card {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top, rgba(200,169,106,0.16), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+}
+
+.hero-logo {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 1.4rem;
+  background: var(--panel2);
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-logo strong {
+  display: block;
+  font-size: clamp(1.5rem, 2.6vw, 2.4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+}
+
+.hero-logo span {
+  display: block;
+  margin-top: 0.8rem;
+  color: var(--accent);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.status-list {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.status-item {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.03);
+  color: var(--muted);
+}
+
+.section {
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.section-copy {
+  margin: 0 0 2rem;
+  max-width: 70ch;
+  color: var(--muted);
+}
+
+.grid-2, .grid-3 {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+.card {
+  padding: 1.4rem;
+}
+
+.card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.15rem;
+}
+
+.card p, .card li, .timeline li, footer p {
+  color: var(--muted);
+}
+
+ul.clean {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+.quote {
+  padding: 1.5rem;
+  border-left: 4px solid var(--accent);
+  background: rgba(255,255,255,0.03);
+  border-radius: 0 18px 18px 0;
+  color: var(--text);
+  font-size: 1.08rem;
+}
+
+.roadmap-phase {
+  padding: 1.25rem;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+}
+
+.roadmap-phase h3 { margin-top: 0; }
+
+.devlog-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.devlog-post {
+  padding: 1.25rem;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+}
+
+.post-meta {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  margin-bottom: 0.5rem;
+}
+
+.media-box {
+  min-height: 220px;
+  border-radius: 22px;
+  border: 1px dashed rgba(255,255,255,0.22);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 1.25rem;
+  background: rgba(255,255,255,0.02);
+  color: var(--muted);
+}
+
+.contact-links {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.contact-link {
+  padding: 0.95rem 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  color: var(--muted);
+}
+
+footer {
+  padding: 2rem 0 3rem;
+  color: var(--muted);
+}
+
+@media (max-width: 960px) {
+  .hero-grid, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .hero { padding-top: 3.5rem; }
+}
+```
+
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">PFAWS</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#veritos">Veritos</a>
+        <a href="#devlog">Devlog</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#modding">Modding</a>
+        <a href="#media">Media</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">In Development • Godot 4.6</div>
+          <h1>Promoters Forge Absolute Wrestling Simulator</h1>
+          <p>
+            Promoters Forge Absolute Wrestling Simulator is an in-development professional wrestling management simulation built around deep, explainable systems rather than surface spectacle.
+          </p>
+          <p>
+            You run a wrestling federation. You book shows, manage wrestlers, negotiate contracts, handle events, grow territories, respond to legal and business pressure, and try to build a promotion that can survive its own ambitions.
+          </p>
+          <p>
+            At the center of the project is <strong>Veritos</strong> — “The Truth of the Spirit.” The punches may not be real, but the crowd’s belief is a measurable truth.
+          </p>
+          <div class="cta-row">
+            <a class="button primary" href="#about">About the Game</a>
+            <a class="button secondary" href="#veritos">Read Veritos</a>
+          </div>
+          <div class="meta-row">
+            <span class="pill">Management Sim First</span>
+            <span class="pill">Deep Systems</span>
+            <span class="pill">Built to Be Moddable</span>
+            <span class="pill">Not Early Access Ready Yet</span>
+          </div>
+        </div>
+
+```
+    <aside class="panel hero-card">
+      <div class="hero-logo">
+        <div>
+          <strong>Promoters Forge<br>Absolute Wrestling Simulator</strong>
+          <span>Professional Wrestling Management Simulation</span>
+        </div>
+      </div>
+      <div class="status-list">
+        <div class="status-item"><strong>Architecture:</strong> Veritos index and structure are about 95% planned and locked.</div>
+        <div class="status-item"><strong>Implementation:</strong> Live implementation is around 60%.</div>
+        <div class="status-item"><strong>Readiness:</strong> Early Access readiness is roughly 40–45%.</div>
+        <div class="status-item"><strong>Current phase:</strong> Veritos A–Z integration into one shared state / resolver / projection flow.</div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <div class="container">
+    <h2 class="section-title">About pFAwS</h2>
+    <p class="section-copy">
+      pFAwS is a professional wrestling management simulation focused on belief, reaction, consequence, and long-term history. The player runs a wrestling federation over time, shaping cards, talent relationships, contracts, developmental pipelines, territory expansion, and business survival.
+    </p>
+    <div class="grid-2">
+      <article class="panel card">
+        <h3>What the player does</h3>
+        <ul class="clean">
+          <li>Book matches, promos, and shows</li>
+          <li>Manage rosters, staff, managers, and free agents</li>
+          <li>Negotiate contracts with leverage, promises, and clauses</li>
+          <li>Handle creative refusal, release disputes, and legal pressure</li>
+          <li>Grow territories and plan cities, venues, and events</li>
+          <li>Develop talent through The Forge Academy</li>
+        </ul>
+      </article>
+      <article class="panel card">
+        <h3>Design rules</h3>
+        <ul class="clean">
+          <li>Everything should be moddable wherever practical</li>
+          <li>Every major system should eventually have its own screen</li>
+          <li>UI should read projections, not mutate simulation truth directly</li>
+          <li>Math and consequences should be explained in plain English</li>
+          <li>Long saves should stay clean through history archiving</li>
+          <li>Advanced systems should remain optional when possible</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="veritos" class="section">
+  <div class="container">
+    <h2 class="section-title">Veritos System</h2>
+    <p class="section-copy">
+      Veritos means <strong>“The Truth of the Spirit.”</strong> It is the core simulation doctrine of pFAwS. Wrestling may be staged, but audience reaction, momentum, trust, fallout, and belief still become measurable truths inside the game.
+    </p>
+    <div class="quote">The punches may not be real. The crowd’s belief is.</div>
+    <div class="grid-2" style="margin-top:1.25rem;">
+      <article class="panel card">
+        <h3>Simulation law flow</h3>
+        <p><strong>State → Registry → Resolver → Delta → Mutated State</strong></p>
+        <p>
+          Systems read the current truth-state, resolve reactions, apply deltas, and produce a new mutated truth the rest of the simulation must respect.
+        </p>
+      </article>
+      <article class="panel card">
+        <h3>Why it matters</h3>
+        <p>
+          pFAwS does not treat wrestling as a simple HP exchange. Moves, promos, refusals, betrayals, chants, and finishes matter because of what they change in the state of the world and how the crowd receives them.
+        </p>
+      </article>
+    </div>
+    <div class="grid-3" style="margin-top:1.25rem;">
+      <article class="panel card">
+        <h3>Crowd belief</h3>
+        <p>Belief is not flavor text. It affects momentum, reaction, trust, and future creative reality.</p>
+      </article>
+      <article class="panel card">
+        <h3>Explainable math</h3>
+        <p>Every major system should explain what happened and why in readable language.</p>
+      </article>
+      <article class="panel card">
+        <h3>Shared truth</h3>
+        <p>UI, history, and projections should all reflect one simulation truth instead of competing versions.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="devlog" class="section">
+  <div class="container">
+    <h2 class="section-title">Devlog</h2>
+    <p class="section-copy">
+      The devlog is where development notes, system deep dives, and grounded progress reports should live. The goal is to document what is built, what is changing, and what is still unfinished without pretending the project is further along than it is.
+    </p>
+    <div class="devlog-list">
+      <article class="devlog-post">
+        <div class="post-meta">Draft Post</div>
+        <h3>Building Veritos: The Crowd Belief Engine</h3>
+        <p>
+          Professional wrestling is difficult to simulate honestly because visible action is only part of what matters. Veritos begins from the idea that crowd belief is a real, measurable force inside the promotion. Acceptance, rejection, momentum, backlash, and trust should all become state the game can react to.
+        </p>
+      </article>
+      <article class="devlog-post">
+        <div class="post-meta">Future Topics</div>
+        <p>A–Z integration, negotiation leverage, explainable simulation screens, history archiving, and mod support direction.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap" class="section">
+  <div class="container">
+    <h2 class="section-title">Roadmap</h2>
+    <p class="section-copy">
+      This roadmap is directional, not promotional. It exists to show the current development focus honestly and to keep expectations grounded.
+    </p>
+    <div class="grid-3">
+      <article class="roadmap-phase panel">
+        <h3>Current</h3>
+        <p>Veritos A–Z integration into one shared state / resolver / projection flow. Static QA is active and green through the current non-headless gate.</p>
+      </article>
+      <article class="roadmap-phase panel">
+        <h3>Near-Term</h3>
+        <p>Continue simulation unification, improve screen-by-screen clarity, strengthen projection reads, and keep stability work ahead of presentation hype.</p>
+      </article>
+      <article class="roadmap-phase panel">
+        <h3>Longer-Term</h3>
+        <p>Expand moddability, improve history scaling, deepen management loops, and build future physical 2D presentation as an expression of Veritos rather than a fighting game.</p>
+      </article>
+    </div>
+    <div class="grid-2" style="margin-top:1.25rem;">
+      <article class="panel card">
+        <h3>Implemented or actively integrated</h3>
+        <ul class="clean timeline">
+          <li>Wrestler stat law with 16 governing stats</li>
+          <li>Randomness and variance layer</li>
+          <li>Crowd belief, chants, and reaction logic</li>
+          <li>Match / Forge beat simulation</li>
+          <li>1700+ move-library logic as state-changing actions</li>
+          <li>Promo system integration</li>
+          <li>Event system with ACTIVE vs HISTORY routing</li>
+          <li>Global clock beginning January 1, 2026</li>
+        </ul>
+      </article>
+      <article class="panel card">
+        <h3>Management depth already in motion</h3>
+        <ul class="clean timeline">
+          <li>Rosters, free agents, staff, managers, law firms, and security tiers</li>
+          <li>Negotiation with interest, leverage, promises, and clauses</li>
+          <li>Creative refusal and refuse-to-lose contract logic</li>
+          <li>Screwjob fallout and release disputes</li>
+          <li>The Forge Academy developmental system</li>
+          <li>Territory, atlas, city, and venue planning</li>
+          <li>Mod support and plain-text error law</li>
+          <li>Screen help and player blueprint direction</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="modding" class="section">
+  <div class="container">
+    <h2 class="section-title">Modding</h2>
+    <p class="section-copy">
+      Modding is a core design principle of pFAwS, not an afterthought. The aim is to support a wrestling simulation that creators can shape for their own worlds, rosters, territories, event identities, and presentation styles.
+    </p>
+    <div class="grid-3">
+      <article class="panel card">
+        <h3>Data-first direction</h3>
+        <p>City, venue, and event-related data should be readable and expandable instead of buried behind opaque logic.</p>
+      </article>
+      <article class="panel card">
+        <h3>Banner and media support</h3>
+        <p>Match banner and event-name image libraries are already part of the direction, with mod support planned into the structure.</p>
+      </article>
+      <article class="panel card">
+        <h3>Plain-text error law</h3>
+        <p>Errors should be readable and useful so creators can diagnose problems without guesswork.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="media" class="section">
+  <div class="container">
+    <h2 class="section-title">Media / Screenshots</h2>
+    <p class="section-copy">
+      pFAwS is still in active development, so this section is currently a placeholder for future UI screenshots, system diagrams, event banners, and public-facing media.
+    </p>
+    <div class="grid-3">
+      <div class="media-box">Screenshot Placeholder<br><small>Roster / booking / event screen</small></div>
+      <div class="media-box">Screenshot Placeholder<br><small>Veritos math / projection / explanation UI</small></div>
+      <div class="media-box">Screenshot Placeholder<br><small>Territory / venue / management overview</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="container grid-2">
+    <div>
+      <h2 class="section-title">Contact / Follow</h2>
+      <p class="section-copy">
+        This project is not ready for store launch yet, but this site can act as the home for future updates, devlog posts, interest collection, and contact links.
+      </p>
+    </div>
+    <div class="contact-links">
+      <a class="contact-link" href="#">Add GitHub link</a>
+      <a class="contact-link" href="#">Add mailing list or interest form</a>
+      <a class="contact-link" href="#">Add social profile</a>
+      <a class="contact-link" href="#">Add future Steam or store page</a>
+    </div>
+  </div>
+</section>
+```
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© <span id="year"></span> Promoters Forge Absolute Wrestling Simulator. In development.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
